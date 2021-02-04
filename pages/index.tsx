@@ -72,7 +72,7 @@ export default function Home({ accounts }) {
   );
 }
 export async function getStaticProps() {
-  const res = await fetch(`http://127.0.0.1:3006/accounts/`);
+  const res = await fetch(`http://popcorn-review.herokuapp.com/accounts/`);
 
   const accounts = await res.json();
   return {

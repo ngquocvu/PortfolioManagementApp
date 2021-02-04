@@ -30,7 +30,7 @@ const Account = ({ transactions }) => {
 };
 
 export async function getStaticPaths() {
-  const res = await fetch("http://localhost:3006/accounts");
+  const res = await fetch("http://popcorn-review.herokuapp.com/accounts");
   const accounts = await res.json();
   const paths = accounts.map((acc) => ({ params: { id: acc._id } }));
   return { paths, fallback: false };
@@ -38,7 +38,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const transactionRes = await fetch(
-    `http://127.0.0.1:3006/accounts/${params.id}/transactions`
+    `http://popcorn-review.herokuapp.com/accounts/${params.id}/transactions`
   );
 
   const transactions = await transactionRes.json();
