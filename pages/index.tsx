@@ -1,19 +1,15 @@
 import {
   Avatar,
-  Card,
   CardActionArea,
-  CardContent,
   createStyles,
   Grid,
   makeStyles,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Assignment } from "@material-ui/icons";
 import Link from "next/link";
 import Head from "next/head";
 import React from "react";
-import AccountList from "../components/AccountList";
 import styles from "../styles/Home.module.css";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Home({ accounts }) {
   const classes = useStyles();
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>SAM - Stock Account Management</title>
         <link rel="icon" href="/favicon.ico" />
@@ -51,20 +47,36 @@ export default function Home({ accounts }) {
         className={styles.main}
         style={{ display: "flex" }}
       >
+        <Grid item sm={12} md={12}>
+          <Typography
+            align="center"
+            style={{ fontWeight: "lighter" }}
+            variant="h2"
+          >
+            Who's That ?
+          </Typography>
+        </Grid>
         {accounts.map((acc: any) => (
           <Grid item>
             <Link href={`user/${acc._id}`}>
               <CardActionArea>
-                <Avatar variant="square" className={classes.large}>
-                  {acc.name
-                    .split(" ")
-                    .map((x) => x.charAt(0))
-                    .join("")
-                    .substr(0, 2)
-                    .toUpperCase()}
+                <Avatar
+                  src="https://www.upsieutoc.com/images/2021/02/03/30db479e1558c3ed46b4ed23b3cd98ae.jpg"
+                  variant="square"
+                  className={classes.large}
+                >
+                  {acc.name.split(" ").slice(-1).join(" ")}
                 </Avatar>
               </CardActionArea>
             </Link>
+            <Typography
+              component="h1"
+              align="center"
+              style={{ fontWeight: "lighter", paddingTop: "1rem" }}
+              variant="h6"
+            >
+              {acc.name.split(" ").slice(-2).join(" ")}
+            </Typography>
           </Grid>
         ))}
       </Grid>

@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "next/link";
 import MenuIcon from "@material-ui/icons/Menu";
+import { Avatar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,7 +24,7 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="dark">
+      <AppBar position="static" color="transparent">
         <Toolbar variant="dense">
           <IconButton
             edge="start"
@@ -34,9 +35,11 @@ export default function DenseAppBar() {
             <MenuIcon />
           </IconButton>
           <Link href="/">
-            <Typography variant="h6" color="inherit">
-              Self Finance Management
-            </Typography>
+            <Avatar
+              style={{ cursor: "pointer" }}
+              variant="square"
+              src="https://www.upsieutoc.com/images/2021/02/04/tai-xung.png"
+            ></Avatar>
           </Link>
         </Toolbar>
       </AppBar>
