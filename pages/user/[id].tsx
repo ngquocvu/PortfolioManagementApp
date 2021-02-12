@@ -1,9 +1,61 @@
 import { Avatar, Grid, Typography } from "@material-ui/core";
-import React from "react";
+import { useRecoilState } from "recoil";
+import { loginState, selfStockState } from "../../states";
+import React, { useState } from "react";
 import DataTable from "../../components/Table";
+import { getAvailableStock } from "../../utils/stock";
 import Head from "next/head";
 import Card from "../../components/Card";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import StockCard from "../../components/StockCard";
+import { useEffect } from "react";
+import router from "next/dist/next-server/lib/router/router";
+import { useRouter } from "next/dist/client/router";
+
+const Arrow = ({ text, className }) => {
+  return <div className={className}>{text}</div>;
+};
+
+const Menu = (list, selected) =>
+  list.map((el) => {
+    const { name } = el;
+
+    return (
+      <StockCard
+        name={el.name}
+        avgPrice={el.avgPrice}
+        vol={el.vol}
+        key={name}
+        selected={selected}
+      />
+    );
+  });
+
 const Account = ({ transactions, profile }) => {
+  const selected = "item1";
+  const ArrowLeft = Arrow({ text: " < ", className: "arrow-prev" });
+  const [selfStock, setSelfStock] = useRecoilState(selfStockState);
+  const ArrowRight = Arrow({ text: " > ", className: "arrow-next" });
+  const [selectedCard, setSelectedCard] = useState({ selected: "key" });
+  const item = Menu(selfStock, selectedCard);
+
+  const onSelect = (key) => {
+    setSelectedCard({ selected: key });
+  };
+  const [auth, setAuth] = useRecoilState(loginState);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(auth);
+    if (auth == false) {
+      router.push("./auth");
+    }
+  });
+
+  useEffect(() => {
+    setSelfStock(getAvailableStock(transactions));
+  }, []);
+
   return (
     <div>
       <Head>
@@ -12,18 +64,32 @@ const Account = ({ transactions, profile }) => {
       </Head>
 
       <Grid container spacing={3}>
-        <Grid item></Grid>
         <Grid item xs={12}>
-          <Typography style={{ fontWeight: "lighter" }} variant="body2">
-            Khách hàng: {profile.name}
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Cổ phiếu của {profile.name.split(" ").slice(-1).join(" ")}
           </Typography>
         </Grid>
         <Grid item xs={12}>
+          <ScrollMenu
+            data={item}
+            // arrowLeft={ArrowLeft}
+            // arrowRight={ArrowRight}
+            onSelect={onSelect}
+          />
+        </Grid>
+
+        <Grid item xs={12} md={9}>
           <DataTable transactions={transactions} />
         </Grid>
-        <Grid item xs={12}>
-          <Card transactions={transactions} profile={profile} />
-          {console.log(profile)}
+        <Grid item xs={12} md={3}>
+          <Card
+            transactions={transactions}
+            selfStock={selfStock}
+            profile={profile}
+          />
         </Grid>
       </Grid>
     </div>
@@ -51,4 +117,5 @@ export async function getStaticProps({ params }) {
     props: { transactions, profile },
   };
 }
+
 export default Account;

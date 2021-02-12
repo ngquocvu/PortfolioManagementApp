@@ -9,8 +9,11 @@ import {
 } from "@material-ui/core";
 import Link from "next/link";
 import Head from "next/head";
-import React from "react";
+import Router, { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
+import { useRecoilState } from "recoil";
+import { loginState } from "../states";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,6 +38,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Home({ accounts }) {
   const classes = useStyles();
+  const router = useRouter();
+  const [auth, setAuth] = useRecoilState(loginState);
+  useEffect(() => {
+    console.log(auth);
+    if (auth == false) {
+      router.push("./auth");
+    }
+  });
   return (
     <div>
       <Head>
@@ -53,7 +64,7 @@ export default function Home({ accounts }) {
             style={{ fontWeight: "lighter" }}
             variant="h2"
           >
-            Who's That ?
+            Bạn là... ?
           </Typography>
         </Grid>
         {accounts.map((acc: any) => (

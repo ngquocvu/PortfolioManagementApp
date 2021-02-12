@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { RecoilRoot } from "recoil";
 
 import {
   useMediaQuery,
@@ -21,43 +22,25 @@ function MyApp({ Component, pageProps }) {
       createMuiTheme({
         palette: {
           type: prefersDarkMode ? "dark" : "light",
+          background: {
+            default: prefersDarkMode ? "#262626" : "#fafafa",
+            paper: prefersDarkMode ? "#343434" : "#fff",
+          },
         },
       }),
     [prefersDarkMode]
   );
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
-      <Loading />
-      <Container maxWidth="lg" style={{ paddingTop: "2rem" }}>
-        <Component {...pageProps} />
-      </Container>
-    </ThemeProvider>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header />
+        <Container maxWidth="lg" style={{ paddingTop: "2rem" }}>
+          <Component {...pageProps} />
+        </Container>
+      </ThemeProvider>
+    </RecoilRoot>
   );
 }
 
 export default MyApp;
-
-function Loading() {
-  const router = useRouter();
-
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const handleStart = (url) => url !== router.asPath && setLoading(true);
-    const handleComplete = (url) => url === router.asPath && setLoading(false);
-
-    router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError", handleComplete);
-
-    return () => {
-      router.events.off("routeChangeStart", handleStart);
-      router.events.off("routeChangeComplete", handleComplete);
-      router.events.off("routeChangeError", handleComplete);
-    };
-  });
-
-  return loading && <LinearProgress />;
-}

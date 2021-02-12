@@ -5,18 +5,21 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export",
-    "start": "next start"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/data-grid": "^4.0.0-alpha.18",
     "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.1",
     "material": "^0.4.3",
     "material-table": "^1.69.2",
     "material-ui": "^0.20.2",
     "next": "10.0.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-horizontal-scrolling-menu": "^0.7.9",
+    "recoil": "^0.1.2",
     "ui": "^0.2.4"
   },
   "devDependencies": {

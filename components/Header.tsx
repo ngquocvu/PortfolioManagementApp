@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Link from "next/link";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Avatar } from "@material-ui/core";
+import { Home, InfoOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,20 +27,24 @@ export default function DenseAppBar() {
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
         <Toolbar variant="dense">
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
           <Link href="/">
-            <Avatar
-              style={{ cursor: "pointer" }}
-              variant="square"
-              src="https://www.upsieutoc.com/images/2021/02/04/tai-xung.png"
-            ></Avatar>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <Home />
+            </IconButton>
+          </Link>
+          <Link href="/about">
+            <IconButton
+              edge="end"
+              className={classes.menuButton}
+              color="inherit"
+            >
+              <InfoOutlined />
+            </IconButton>
           </Link>
         </Toolbar>
       </AppBar>

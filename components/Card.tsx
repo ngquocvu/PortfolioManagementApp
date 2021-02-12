@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
+import { numberWithCommas } from "../utils/stock";
 
 import {
   Box,
@@ -12,41 +13,6 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-const getAvailableStock = (transactions) => {
-  const stocks = [];
-  transactions.map((tran) => {
-    if (stocks.some((item) => item.name === tran.stock)) {
-      let foundItem = stocks.find((item) => item.name === tran.stock);
-      const index = stocks.indexOf(foundItem);
-      //
-      if (tran.order == "BUY") {
-        stocks[index] = {
-          ...foundItem,
-          vol: foundItem.vol + tran.vol,
-          avgPrice:
-            (foundItem.vol * foundItem.avgPrice + tran.vol * tran.unit_price) /
-            (tran.vol + foundItem.vol),
-        };
-      } else {
-        stocks[index] = {
-          ...foundItem,
-          vol: foundItem.vol - tran.vol,
-        };
-      }
-    } else {
-      stocks.push({
-        name: tran.stock,
-        vol: tran.vol,
-        avgPrice: tran.unit_price,
-      });
-    }
-  });
-  return stocks;
-};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,7 +48,7 @@ const getCash = (transactions, balance) => {
   });
   return newBalance;
 };
-const getStockValue = (availStock) => {
+const getStockValue = (availStock: any) => {
   let total = 0;
   availStock.forEach((e) => {
     total += e.vol * e.avgPrice;
@@ -90,11 +56,15 @@ const getStockValue = (availStock) => {
   return total;
 };
 
-export default function RecipeReviewCard({ transactions, profile }) {
+export default function RecipeReviewCard({ transactions, profile, selfStock }) {
   const classes = useStyles();
-  const [availStock, getAvailStock] = useState(getAvailableStock(transactions));
-  const [stockValue, setStockValue] = useState(getStockValue(availStock));
-  const [cash, setCash] = useState(getCash(transactions, profile.balance));
+  const [cash, setCash] = useState(0);
+  const [stockValue, setStockValue] = useState(0);
+
+  useEffect(() => {
+    setCash(getCash(transactions, profile.balance));
+    setStockValue(getStockValue(selfStock));
+  });
 
   return (
     <Box border={0} borderRadius={5}>
@@ -103,7 +73,6 @@ export default function RecipeReviewCard({ transactions, profile }) {
           <TableBody>
             <TableRow>
               <TableCell>
-                {" "}
                 <Typography variant="h5">Tổng kết </Typography>
               </TableCell>
               <TableCell></TableCell>
@@ -129,15 +98,13 @@ export default function RecipeReviewCard({ transactions, profile }) {
             <TableRow>
               <TableCell>Tổng tiền còn lại</TableCell>
               <TableCell align="right" component="th" scope="row">
-                {numberWithCommas(stockValue + parseFloat(cash))}
+                {numberWithCommas(stockValue + cash)}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Lời / Lỗ</TableCell>
               <TableCell align="right" component="th" scope="row">
-                {numberWithCommas(
-                  stockValue + parseFloat(cash) - profile.balance
-                )}
+                {numberWithCommas(stockValue + cash - profile.balance)}
               </TableCell>
             </TableRow>
           </TableBody>
