@@ -87,7 +87,12 @@ const NewsArea = ({ searchQuery }) => {
       "https://gnewsapi.net/api/search?q=" +
         query +
         "&language=vi&country=vn&api_token=" +
-        ACCESS_KEY
+        ACCESS_KEY,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
     )
       .then((res) => {
         console.log(res.data);
