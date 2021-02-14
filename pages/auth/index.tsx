@@ -47,7 +47,7 @@ export default function SignIn() {
 
   const loginUser = async (credentials) => {
     console.log(credentials);
-    return fetch("http://popcorn-review.herokuapp.com/auth", {
+    return fetch("https://popcorn-review.herokuapp.com/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),

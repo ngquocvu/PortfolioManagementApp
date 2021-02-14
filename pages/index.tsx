@@ -95,7 +95,7 @@ export default function Home({ accounts }) {
 }
 
 export async function getStaticProps() {
-  const respone = await fetch(`http://popcorn-review.herokuapp.com/accounts/`);
+  const respone = await fetch(`https://popcorn-review.herokuapp.com/accounts/`);
   const accounts = await respone.json();
   return { props: { accounts } };
 }
