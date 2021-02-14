@@ -1,6 +1,6 @@
 import { Avatar, Grid, Typography } from "@material-ui/core";
 import { useRecoilState } from "recoil";
-import { loginState, selfStockState } from "../../states";
+import { loginState, selfStockState, tokenState } from "../../states";
 import React, { useState } from "react";
 import DataTable from "../../components/Table";
 import { getAvailableStock } from "../../utils/stock";
@@ -11,6 +11,8 @@ import StockCard from "../../components/StockCard";
 import { useEffect } from "react";
 import router from "next/dist/next-server/lib/router/router";
 import { useRouter } from "next/dist/client/router";
+import auth from "../auth";
+import NewsArea from "../../components/NewsArea";
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -42,14 +44,14 @@ const Account = ({ transactions, profile }) => {
   const onSelect = (key) => {
     setSelectedCard({ selected: key });
   };
-  const [auth, setAuth] = useRecoilState(loginState);
+  const [token, setToken] = useRecoilState(tokenState);
   const router = useRouter();
 
   useEffect(() => {
     console.log(auth);
-    if (auth == false) {
-      router.push("./auth");
-    }
+    // if (token == null) {
+    //   router.push("/auth");
+    // }
   });
 
   useEffect(() => {
@@ -81,6 +83,15 @@ const Account = ({ transactions, profile }) => {
           />
         </Grid>
 
+        <Grid item xs={12}>
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Lịch sử giao dịch
+          </Typography>
+        </Grid>
+
         <Grid item xs={12} md={9}>
           <DataTable transactions={transactions} />
         </Grid>
@@ -90,6 +101,18 @@ const Account = ({ transactions, profile }) => {
             selfStock={selfStock}
             profile={profile}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Bảng tin
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <NewsArea searchQuery="" />
         </Grid>
       </Grid>
     </div>

@@ -9,4 +9,8 @@ const loginState = atom({
   default: false,
 });
 
-export { selfStockState, loginState };
+const tokenState = atom({
+  key: "tokenState",
+  default: null,
+});
+export { selfStockState, loginState, tokenState };

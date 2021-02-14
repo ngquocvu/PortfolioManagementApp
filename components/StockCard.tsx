@@ -57,7 +57,7 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
         <Typography variant="h5" color="error">
           {stockStat.data[0].close
             ? numberWithCommas((stockStat.data[0].close - avgPrice) * vol)
-            : (stockStat.data[0].close - avgPrice) * vol}
+            : "Loading..."}
         </Typography>
         <div>
           <Typography variant="body2" color="textSecondary">
@@ -68,7 +68,7 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
             {numberWithCommas(avgPrice)} /{" "}
             {stockStat.data[0].close
               ? numberWithCommas(stockStat.data[0].close)
-              : stockStat.data[0].close}
+              : "Loading..."}
           </Typography>
         </div>
         <div>

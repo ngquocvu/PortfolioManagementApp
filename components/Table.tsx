@@ -7,10 +7,13 @@ import { numberWithCommas } from "../utils/stock";
 
 const useStyles = makeStyles({});
 
+const BUY_COLOR = "#1eb800";
+const SELL_COLOR = "#f22e1f";
+
 const AcccessibleTable = ({ transactions }) => {
   return (
     <MaterialTable
-      title="Bảng giao dịch"
+      title=""
       columns={[
         { title: "Cổ phiếu", field: "stock" },
         { title: "Khối lượng", field: "vol" },
@@ -19,8 +22,9 @@ const AcccessibleTable = ({ transactions }) => {
           field: "order",
           render: (rowData) => {
             if (rowData.order == "BUY")
-              return <Typography color="primary">Mua</Typography>;
-            else return <Typography color="secondary">Bán</Typography>;
+              return <Typography style={{ color: BUY_COLOR }}>Mua</Typography>;
+            else
+              return <Typography style={{ color: SELL_COLOR }}>Bán</Typography>;
           },
         },
         {
@@ -38,13 +42,13 @@ const AcccessibleTable = ({ transactions }) => {
           render: (rowData) => {
             if (rowData.order == "BUY")
               return (
-                <Typography color="primary">
+                <Typography style={{ color: BUY_COLOR }}>
                   {numberWithCommas(rowData.unit_price * rowData.vol)}
                 </Typography>
               );
             else
               return (
-                <Typography color="secondary">
+                <Typography style={{ color: SELL_COLOR }}>
                   {numberWithCommas(rowData.unit_price * rowData.vol)}
                 </Typography>
               );

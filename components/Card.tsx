@@ -59,12 +59,23 @@ const getStockValue = (availStock: any) => {
 export default function RecipeReviewCard({ transactions, profile, selfStock }) {
   const classes = useStyles();
   const [cash, setCash] = useState(0);
+  const BUY_COLOR = "#1eb500";
+  const SELL_COLOR = "#f22e1f";
   const [stockValue, setStockValue] = useState(0);
 
   useEffect(() => {
     setCash(getCash(transactions, profile.balance));
     setStockValue(getStockValue(selfStock));
   });
+
+  const calProfit = () => {
+    let profit = stockValue + cash - profile.balance;
+    return (
+      <Typography style={{ color: profit < 0 ? SELL_COLOR : BUY_COLOR }}>
+        {numberWithCommas(profit)}
+      </Typography>
+    );
+  };
 
   return (
     <Box border={0} borderRadius={5}>
@@ -104,7 +115,7 @@ export default function RecipeReviewCard({ transactions, profile, selfStock }) {
             <TableRow>
               <TableCell>Lời / Lỗ</TableCell>
               <TableCell align="right" component="th" scope="row">
-                {numberWithCommas(stockValue + cash - profile.balance)}
+                <Typography>{calProfit()}</Typography>
               </TableCell>
             </TableRow>
           </TableBody>

@@ -7,7 +7,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Link from "next/link";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Avatar } from "@material-ui/core";
+
 import { Home, InfoOutlined } from "@material-ui/icons";
+import { useRecoilState } from "recoil";
+import { tokenState } from "../states";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function DenseAppBar() {
   const classes = useStyles();
-
+  const [token, setToken] = useRecoilState(tokenState);
   return (
     <div className={classes.root}>
       <AppBar position="static" color="transparent">
