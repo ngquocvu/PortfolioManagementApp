@@ -67,7 +67,7 @@ export default function Home({ accounts }) {
             </Typography>
           </Grid>
           {accounts.map((acc) => (
-            <Grid item>
+            <Grid key={acc.name} item>
               <Link href={`user/${acc._id}`}>
                 <CardActionArea>
                   <Avatar

@@ -23,6 +23,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-horizontal-scrolling-menu": "^0.7.9",
+    "recharts": "^2.0.6",
     "recoil": "^0.1.2",
     "ui": "^0.2.4"
   },

@@ -13,6 +13,7 @@ import router from "next/dist/next-server/lib/router/router";
 import { useRouter } from "next/dist/client/router";
 import auth from "../auth";
 import NewsArea from "../../components/NewsArea";
+import IndexChart from "../../components/IndexChart";
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -48,10 +49,10 @@ const Account = ({ transactions, profile }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(auth);
-    if (token == null) {
-      router.push("/auth");
-    }
+    // console.log(auth);
+    // if (token == null) {
+    //   router.push("/auth");
+    // }
   });
 
   useEffect(() => {
@@ -66,6 +67,18 @@ const Account = ({ transactions, profile }) => {
       </Head>
 
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Biểu đồ VN-INDEX
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <IndexChart />
+        </Grid>
+
         <Grid item xs={12}>
           <Typography
             style={{ fontWeight: "lighter", marginLeft: "1rem" }}
