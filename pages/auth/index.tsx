@@ -57,7 +57,9 @@ export default function SignIn() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = await loginUser({ passcode: passcode });
-    setToken(data.token);
+    if (data.token == undefined) {
+      setErrorMessage("Vui lòng nhập lại mật khẩu");
+    } else setToken(data.token);
   };
 
   useEffect(() => {

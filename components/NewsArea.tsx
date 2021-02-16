@@ -1,20 +1,10 @@
-import {
-  Button,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box/Box";
 import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
-import { StringifyOptions } from "querystring";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { numberWithCommas } from "../utils/stock";
 const useStyles = makeStyles({
   root: {
     margin: "0 1rem",
@@ -58,7 +48,7 @@ const NewsArea = ({ searchQuery }) => {
   const ACCESS_KEY =
     "7ZIwusa4FApDAzlvcvmc7DzheOYLxPdVjQKE0v4bQJ0gxcgSXXqaXzo5SAAV";
 
-  const [news, setNews] = useState<News>({
+  const [news, setNews] = useState<any>({
     datetime: "",
     countArticles: 0,
     articles: [
@@ -83,23 +73,16 @@ const NewsArea = ({ searchQuery }) => {
   };
 
   useEffect(() => {
-    axios(
-      "https://gnewsapi.net/api/search?q=" +
-        query +
-        "&language=vi&country=vn&api_token=" +
-        ACCESS_KEY,
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
-    )
+    axios
+      .get("https://thanhnien.vn/rss/tai-chinh-kinh-doanh/chung-khoan.rss", {
+        headers: { "Access-Control-Allow-Origin": "*" },
+      })
       .then((res) => {
         console.log(res.data);
         setNews(res.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  });
   return (
     <div style={{ display: "flex" }}>
       <Grid container>

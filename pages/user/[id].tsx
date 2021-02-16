@@ -49,9 +49,9 @@ const Account = ({ transactions, profile }) => {
 
   useEffect(() => {
     console.log(auth);
-    // if (token == null) {
-    //   router.push("/auth");
-    // }
+    if (token == null) {
+      router.push("/auth");
+    }
   });
 
   useEffect(() => {
@@ -101,18 +101,6 @@ const Account = ({ transactions, profile }) => {
             selfStock={selfStock}
             profile={profile}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography
-            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
-            variant="h6"
-          >
-            Bảng tin
-          </Typography>
-        </Grid>
-
-        <Grid item xs={12}>
-          <NewsArea searchQuery="" />
         </Grid>
       </Grid>
     </div>
