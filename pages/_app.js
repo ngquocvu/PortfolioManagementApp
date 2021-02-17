@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import Header from "../components/Header";
+import Typography from "@material-ui/core/Typography";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -23,8 +24,8 @@ function MyApp({ Component, pageProps }) {
         palette: {
           type: prefersDarkMode ? "dark" : "light",
           background: {
-            default: prefersDarkMode ? "#262626" : "#fafafa",
-            paper: prefersDarkMode ? "#343434" : "#fff",
+            default: prefersDarkMode ? "#1d1f2a" : "#fafafa",
+            paper: prefersDarkMode ? "#232632" : "#fff",
           },
         },
       }),

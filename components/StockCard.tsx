@@ -7,10 +7,21 @@ import {
 } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { Favorite, LensTwoTone, MoreHoriz } from "@material-ui/icons";
+import { Favorite, Info, LensTwoTone, MoreHoriz } from "@material-ui/icons";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
+import {
+  ResponsiveContainer,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Legend,
+  Area,
+  Tooltip,
+  Line,
+  LineChart,
+} from "recharts";
 import { numberWithCommas } from "../utils/stock";
 import StockChart from "./StockChart";
 const useStyles = makeStyles({
@@ -35,7 +46,7 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
   const [open, setOpen] = useState(false);
   const BUY_COLOR = "#1eb800";
   const SELL_COLOR = "#f22e1f";
-  const ACCESS_KEY = "68bdf0c93a336674f0513c81a5ffc98e";
+  const ACCESS_KEY = "f63c8b0d9ba2d8ac215ba75b7a3c1a36";
   const [stockStat, setStockStat] = useState({
     pagination: {},
     data: [{ close: null, date: null }],
@@ -73,15 +84,17 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
         name={name}
         stockStat={stockStat}
       />
-      {console.log(stockStat)}
+
       <Card className={classes.root}>
         <CardContent>
+          <IconButton style={{ float: "right" }} aria-label="add to favorites">
+            <Info onClick={() => setOpen(true)} />
+          </IconButton>
           <div style={{ display: "flex" }}>
-            <Typography variant="h5">{name}</Typography>
+            <Typography variant="h4">{name}</Typography>
           </div>
-
           <Typography
-            variant="h5"
+            variant="h4"
             style={{
               color:
                 stockStat.data[0].close - avgPrice > 0 ? BUY_COLOR : SELL_COLOR,
@@ -91,6 +104,27 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
               ? numberWithCommas((stockStat.data[0].close - avgPrice) * vol)
               : "Loading..."}
           </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Lời / Lỗ
+          </Typography>
+          <LineChart
+            width={300}
+            height={150}
+            data={stockStat.data.map(({ close, date }) => ({
+              close: close,
+              date: new Date(Date.parse(date)).toDateString(),
+            }))}
+          >
+            <XAxis dataKey="date" reversed={true} hide={true} />
+            <Line
+              type="monotone"
+              dataKey="close"
+              dot={false}
+              autoReverse={true}
+              stroke="#8884d8"
+              strokeWidth={2}
+            />
+          </LineChart>
           <div>
             <Typography variant="body2" color="textSecondary">
               Giá mua / Giá thị trường
@@ -102,7 +136,7 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
                 ? numberWithCommas(stockStat.data[0].close)
                 : "Loading..."}
             </Typography>
-          </div>
+          </div>{" "}
           <div>
             <Typography variant="body2" color="textSecondary">
               {" "}
@@ -113,9 +147,6 @@ const StockCard = ({ name, avgPrice, vol, key, selected }) => {
             {new Date(stockStat.data[0].date).toLocaleDateString()}
           </Typography>
         </CardContent>
-        <IconButton aria-label="add to favorites">
-          <MoreHoriz onClick={() => setOpen(true)} />
-        </IconButton>
       </Card>
     </>
   );

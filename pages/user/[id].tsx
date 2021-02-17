@@ -49,15 +49,20 @@ const Account = ({ transactions, profile }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // console.log(auth);
-    // if (token == null) {
-    //   router.push("/auth");
-    // }
+    console.log(auth);
+    if (token == null) {
+      router.push("/auth");
+    }
   });
 
   useEffect(() => {
     setSelfStock(getAvailableStock(transactions));
   }, []);
+
+  const Menu2 = () =>
+    selfStock.map((self) => {
+      return <div key={self.name}>{self.name}</div>;
+    });
 
   return (
     <div>
@@ -75,7 +80,7 @@ const Account = ({ transactions, profile }) => {
             Biểu đồ VN-INDEX
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={12}>
           <IndexChart />
         </Grid>
 
@@ -88,12 +93,8 @@ const Account = ({ transactions, profile }) => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <ScrollMenu
-            data={item}
-            // arrowLeft={ArrowLeft}
-            // arrowRight={ArrowRight}
-            onSelect={onSelect}
-          />
+          <ScrollMenu data={item} wheel={false} onSelect={onSelect} />
+          {/* <ScrollMenu wheel={false} data={Menu2()} /> */}
         </Grid>
 
         <Grid item xs={12}>
@@ -113,8 +114,27 @@ const Account = ({ transactions, profile }) => {
             transactions={transactions}
             selfStock={selfStock}
             profile={profile}
-          />
+          />{" "}
         </Grid>
+
+        {/* <Grid item xs={12} md={8}>
+          <iframe
+            frameBorder="0"
+            src="https://vn.widgets.investing.com/top-cryptocurrencies?theme=darkTheme"
+            width="100%"
+            height="600"
+            allowTransparency={true}
+          ></iframe>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <iframe
+            src="https://vn.widgets.investing.com/single-currency-crosses?theme=darkTheme&hideTitle=true&currency=87"
+            width="100%"
+            height="600"
+            frameBorder="0"
+            allowTransparency={true}
+          ></iframe>
+        </Grid> */}
       </Grid>
     </div>
   );

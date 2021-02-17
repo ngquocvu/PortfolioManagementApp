@@ -16,6 +16,7 @@ import cookieCutter from "cookie-cutter";
 import { useRouter } from "next/router";
 import { loginState, tokenState } from "../../states";
 import { LockOpen } from "@material-ui/icons";
+import { Backdrop, CircularProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -44,6 +49,13 @@ export default function SignIn() {
   const [passcode, setPasscode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [token, setToken] = useRecoilState(tokenState);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   const loginUser = async (credentials) => {
     console.log(credentials);
@@ -56,53 +68,61 @@ export default function SignIn() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    handleToggle();
     const data = await loginUser({ passcode: passcode });
     if (data.token == undefined) {
       setErrorMessage("Vui lòng nhập lại mật khẩu");
+      handleClose();
     } else setToken(data.token);
   };
 
   useEffect(() => {
     if (token !== null) {
+      handleClose();
       router.push("/");
     }
   }, [token]);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography variant="h5" color="error">
-          {errorMessage}
-        </Typography>
-        <form className={classes.form}>
-          <TextField
-            margin="normal"
-            inputProps={{ style: { fontSize: 60, textAlign: "center" } }}
-            value={passcode}
-            onChange={(e) => setPasscode(e.target.value)}
-            fullWidth
-            name="password"
-            type="password"
-            placeholder="PIN-CODE"
-            id="password"
-            autoComplete="current-password"
-          />
+    <>
+      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography variant="h5" color="error">
+            {errorMessage}
+          </Typography>
+          <form className={classes.form}>
+            <TextField
+              margin="normal"
+              inputProps={{ style: { fontSize: 60, textAlign: "center" } }}
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
+              fullWidth
+              name="password"
+              type="password"
+              placeholder="PIN-CODE"
+              id="password"
+              autoComplete="current-password"
+            />
 
-          <Button
-            type="submit"
-            fullWidth
-            startIcon={<LockOpen />}
-            size="large"
-            variant="outlined"
-            onClick={(e) => onSubmit(e)}
-            className={classes.submit}
-          >
-            Đăng nhập
-          </Button>
-        </form>
-      </div>
-      <Box mt={8}></Box>
-    </Container>
+            <Button
+              type="submit"
+              fullWidth
+              startIcon={<LockOpen />}
+              size="large"
+              variant="outlined"
+              onClick={(e) => onSubmit(e)}
+              className={classes.submit}
+            >
+              Đăng nhập
+            </Button>
+          </form>
+        </div>
+        <Box mt={8}></Box>
+      </Container>
+    </>
   );
 }

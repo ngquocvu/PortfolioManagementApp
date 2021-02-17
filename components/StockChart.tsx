@@ -70,26 +70,28 @@ export default function FullScreenDialog({
             </Button> */}
           </Toolbar>
         </AppBar>
-        <MaterialTable
-          style={{ textAlign: "center" }}
-          title=""
-          columns={[
-            {
-              title: "Giá",
-              field: "open",
-              render: (rowData) => numberWithCommas(rowData.open),
-            },
+        <Container>
+          <MaterialTable
+            style={{ textAlign: "center" }}
+            title=""
+            columns={[
+              {
+                title: "Giá",
+                field: "open",
+                render: (rowData) => numberWithCommas(rowData.open),
+              },
 
-            {
-              title: "KL giao dịch",
-              field: "volume",
-              render: (rowData) => numberWithCommas(rowData.open * 1000),
-            },
-            { title: "Ngày", field: "date", type: "date" },
-          ]}
-          data={stockStat.data}
-          icons={TableIcons}
-        />
+              {
+                title: "KL giao dịch",
+                field: "volume",
+                render: (rowData) => numberWithCommas(rowData.open * 1000),
+              },
+              { title: "Ngày", field: "date", type: "date" },
+            ]}
+            data={stockStat.data}
+            icons={TableIcons}
+          />
+        </Container>
       </Dialog>
     </>
   );
