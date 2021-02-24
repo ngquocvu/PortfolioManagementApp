@@ -1,13 +1,15 @@
 # SSM - Quản lý chứng khoán cá nhân (Front-end)
-### Công cụ sử dụng: React Hooks + Nextjs + Material UI
-### haniextidus.herokuapp.com 
-##### (password: nhắn tin cho tôi nhé - đang code mục tài khoản khách)
 
+### Công cụ sử dụng: React Hooks + Nextjs + Material UI
+
+### haniextidus.herokuapp.com
+
+##### (PIN CODE: \_ \_ \_ \_ - Nhăn riêng tôi nhé!)
 
 Các plugins khác: React Recharts - Axios -...
 
 - Back-end Repo: đã tạm ẩn bởi Quốc Vũ
-Công cụ sử dụng cho BE: MongoDB, NodeJS
+- Công cụ sử dụng cho BE: MongoDB, NodeJS
 
 ## Tính năng
 
@@ -15,18 +17,18 @@ Công cụ sử dụng cho BE: MongoDB, NodeJS
 - Cung cấp thông tin các mã chứng khoáng đang sở hữu.
 - Biểu đồ tình hình các cổ phiếu.
 
-
 ## Cài đặt
-
 
 ```sh
 npm i
-npm run dev 
+npm run dev
 ```
+
 ## Screenshot
-__Giao diện chính phần quản lý__
+
+**Giao diện chính phần quản lý**
 ![Screenshot1](https://i0.wp.com/s1.uphinh.org/2021/02/17/pass.png)
 
-
 ```
 
+```

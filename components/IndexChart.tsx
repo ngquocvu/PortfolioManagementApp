@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as Constants from "./constants";
 import React, { useEffect, useState } from "react";
 import {
   LineChart,
@@ -13,22 +14,18 @@ import {
   Area,
 } from "recharts";
 
-const IndexChart = () => {
-  const ACCESS_KEY = "f63c8b0d9ba2d8ac215ba75b7a3c1a36";
-  const [stockStat, setStockStat] = useState({
-    pagination: {},
-    data: [{ open: null, date: null }],
-  });
+const IndexChart = ({ code }) => {
+  const [stockStat, setStockStat] = useState({ o: [], c: [], t: [], v: [] });
 
   useEffect(() => {
     axios
-      .get(
-        "http://api.marketstack.com/v1/eod" +
-          "?access_key=" +
-          ACCESS_KEY +
-          "&symbols=" +
-          "ITA.XSTC"
-      )
+      .get(Constants.HISTORYCAL_DATA_URL + code, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "X-Requested-With": "XMLHttpRequest",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
       .then((res) => {
         console.log(res.data);
         setStockStat(res.data);
@@ -42,21 +39,20 @@ const IndexChart = () => {
         <AreaChart
           width={500}
           height={300}
-          data={stockStat.data.map(({ open, date }) => ({
-            open: open,
-            date: new Date(Date.parse(date)).toDateString(),
+          data={stockStat.c.map((cur, index) => ({
+            close: stockStat.c[index],
+            time: new Date(stockStat.t[index] * 1000).toLocaleDateString(),
           }))}
         >
-          {/* <CartesianGrid strokeDasharray="1 1" /> */}
-          <XAxis hide={true} dataKey="date" reversed={true} />
-          <YAxis domain={[2000, 7000]} />
-          <Tooltip />
-          <Legend />
+          <Tooltip contentStyle={{ color: "black" }} />
+          <XAxis dataKey="time" minTickGap={150} />
+          <YAxis type="number" domain={["auto", "auto"]} dataKey="close" />
+
           <Area
             type="monotone"
-            dataKey="open"
-            stroke="#8884d8"
-            fill="#8884d8"
+            stroke="#61d457"
+            dataKey="close"
+            fill="#61d457"
           />
         </AreaChart>
       </ResponsiveContainer>

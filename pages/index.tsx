@@ -1,22 +1,10 @@
-import {
-  Avatar,
-  CardActionArea,
-  createStyles,
-  Grid,
-  makeStyles,
-  Theme,
-  Typography,
-} from "@material-ui/core";
-import Link from "next/link";
-import Head from "next/head";
-import Router, { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import cookie from "js-cookie";
-import styles from "../styles/Home.module.css";
-
-import Auth from "./auth";
-import { useRecoilState } from "recoil";
-import { tokenState } from "../states";
+import { createStyles, Grid, makeStyles, Typography } from "@material-ui/core";
+import React from "react";
+import { useState } from "react";
+import ScriptTag from "react-script-tag";
+import * as Constants from "../components/constants";
+import IndexChart from "../components/IndexChart";
+import NewsArea from "../components/NewsArea";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -41,57 +29,34 @@ const useStyles = makeStyles((theme) =>
 
 export default function Home({ accounts }) {
   const classes = useStyles();
-  const [token, setToken] = useRecoilState(tokenState);
+  const [code, setCode] = useState("VNINDEX");
 
-  if (token == null) return <Auth />;
-  else
-    return (
-      <div>
-        <Head>
-          <title>SAM - Stock Account Management</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Grid
-          container
-          spacing={5}
-          className={styles.main}
-          style={{ display: "flex" }}
+  return (
+    <>
+      <Grid container spacing={3}>
+        <Typography
+          style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+          variant="h6"
         >
-          <Grid item sm={12} md={12}>
-            <Typography
-              align="center"
-              style={{ fontWeight: "lighter" }}
-              variant="h2"
-            >
-              Bạn là... ?
-            </Typography>
-          </Grid>
-          {accounts.map((acc) => (
-            <Grid key={acc.name} item>
-              <Link href={`user/${acc._id}`}>
-                <CardActionArea>
-                  <Avatar
-                    src="https://www.upsieutoc.com/images/2021/02/03/30db479e1558c3ed46b4ed23b3cd98ae.jpg"
-                    variant="square"
-                    className={classes.large}
-                  >
-                    {acc.name.split(" ").slice(-1).join(" ")}
-                  </Avatar>
-                </CardActionArea>
-              </Link>
-              <Typography
-                component="h1"
-                align="center"
-                style={{ fontWeight: "lighter", paddingTop: "1rem" }}
-                variant="h6"
-              >
-                {acc.name.split(" ").slice(-2).join(" ")}
-              </Typography>
-            </Grid>
-          ))}
+          {"Bảng điểm Vn-index"}
+        </Typography>
+        <Grid item xs={12}>
+          <IndexChart code={code} />
         </Grid>
-      </div>
-    );
+        <Grid item xs={12}>
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Sự kiện hôm nay
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <NewsArea />
+        </Grid>
+      </Grid>
+    </>
+  );
 }
 
 export async function getStaticProps() {

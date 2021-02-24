@@ -35,7 +35,6 @@ const Menu = (list, selected) =>
   });
 
 const Account = ({ transactions, profile }) => {
-  const selected = "item1";
   const ArrowLeft = Arrow({ text: " < ", className: "arrow-prev" });
   const [selfStock, setSelfStock] = useRecoilState(selfStockState);
   const ArrowRight = Arrow({ text: " > ", className: "arrow-next" });
@@ -81,7 +80,7 @@ const Account = ({ transactions, profile }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} md={12}>
-          <IndexChart />
+          {/* <IndexChart /> */}
         </Grid>
 
         <Grid item xs={12}>
