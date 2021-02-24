@@ -1,4 +1,4 @@
-export const PROXY = "https://private-cors-server.herokuapp.com/";
+export const PROXY = "https://tidus-cors.herokuapp.com/";
 export const API_URL = PROXY + "https://finfo-api.vndirect.com.vn/";
 export const HISTORYCAL_DATA_URL =
   PROXY +

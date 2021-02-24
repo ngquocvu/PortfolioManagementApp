@@ -131,7 +131,7 @@ const NewsArea = () => {
           wheel={false}
         />
       ) : (
-        <div>a</div>
+        <div></div>
       )}
     </div>
   );
