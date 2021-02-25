@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       textAlign: "left",
+      cursor: "pointer",
       fontWeight: "bold",
     },
   })

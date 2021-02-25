@@ -2,9 +2,10 @@ import { createStyles, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
 import ScriptTag from "react-script-tag";
-import * as Constants from "../components/constants";
+import * as Constants from "../utils/constants";
 import IndexChart from "../components/IndexChart";
 import NewsArea from "../components/NewsArea";
+import TopStock from "../components/Home/TopStock";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -42,6 +43,17 @@ export default function Home({ accounts }) {
         </Typography>
         <Grid item xs={12}>
           <IndexChart code={code} />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography
+            style={{ fontWeight: "lighter", marginLeft: "1rem" }}
+            variant="h6"
+          >
+            Top 10 cổ phiếu
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <TopStock />
         </Grid>
         <Grid item xs={12}>
           <Typography

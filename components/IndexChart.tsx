@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as Constants from "./constants";
+import * as Constants from "../utils/constants";
 import React, { useEffect, useState } from "react";
 import {
   LineChart,
@@ -13,6 +13,7 @@ import {
   AreaChart,
   Area,
 } from "recharts";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const IndexChart = ({ code }) => {
   const [stockStat, setStockStat] = useState({ o: [], c: [], t: [], v: [] });
@@ -35,27 +36,31 @@ const IndexChart = ({ code }) => {
 
   return (
     <div style={{ width: "100%", height: 300 }}>
-      <ResponsiveContainer>
-        <AreaChart
-          width={500}
-          height={300}
-          data={stockStat.c.map((cur, index) => ({
-            close: stockStat.c[index],
-            time: new Date(stockStat.t[index] * 1000).toLocaleDateString(),
-          }))}
-        >
-          <Tooltip contentStyle={{ color: "black" }} />
-          <XAxis dataKey="time" minTickGap={150} />
-          <YAxis type="number" domain={["auto", "auto"]} dataKey="close" />
+      {stockStat.o.length > 0 ? (
+        <ResponsiveContainer>
+          <AreaChart
+            width={500}
+            height={300}
+            data={stockStat.c.map((cur, index) => ({
+              close: stockStat.c[index],
+              time: new Date(stockStat.t[index] * 1000).toLocaleDateString(),
+            }))}
+          >
+            <Tooltip contentStyle={{ color: "black" }} />
+            <XAxis dataKey="time" minTickGap={150} />
+            <YAxis type="number" domain={["auto", "auto"]} dataKey="close" />
 
-          <Area
-            type="monotone"
-            stroke="#61d457"
-            dataKey="close"
-            fill="#61d457"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+            <Area
+              type="monotone"
+              stroke="#61d457"
+              dataKey="close"
+              fill="#61d457"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      ) : (
+        <Skeleton animation="wave" height="40vh" />
+      )}
     </div>
   );
 };

@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/_app.js", "components/TableIcons.js", "pages/auth/index.jsx", "pages/index.jsx"  ],
+, "pages/_app.js", "components/TableIcons.js", "pages/auth/index.jsx", "pages/index.jsx", "pages/login/index.js"  ],
   "exclude": [
     "node_modules"
   ]

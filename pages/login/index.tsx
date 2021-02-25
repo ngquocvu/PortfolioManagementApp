@@ -11,7 +11,11 @@ import Link from "next/link";
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import { useRecoilState } from "recoil";
+import Router from "next/router";
 import { tokenState } from "../../states";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Auth from "../auth";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -36,9 +40,12 @@ const useStyles = makeStyles((theme) =>
 
 export default function Login({ accounts }) {
   const classes = useStyles();
+  const router = useRouter();
   const [token, setToken] = useRecoilState(tokenState);
 
-  return (
+  return token === null ? (
+    <Auth />
+  ) : (
     <div>
       <Head>
         <title>SAM - Stock Account Management</title>

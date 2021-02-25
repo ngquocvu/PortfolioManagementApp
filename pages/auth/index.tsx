@@ -97,13 +97,13 @@ export default function SignIn() {
           <form className={classes.form}>
             <TextField
               margin="normal"
-              inputProps={{ style: { fontSize: 60, textAlign: "center" } }}
+              inputProps={{ style: { fontSize: 35, textAlign: "center" } }}
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              fullWidth
               name="password"
+              variant="outlined"
               type="password"
-              placeholder="PIN-CODE"
+              placeholder="****"
               id="password"
               autoComplete="current-password"
             />

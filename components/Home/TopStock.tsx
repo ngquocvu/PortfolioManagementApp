@@ -10,7 +10,7 @@ import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
 import React, { useEffect } from "react";
-import * as Constants from "../utils/constants";
+import * as Constants from "../../utils/constants";
 import { useState } from "react";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -20,6 +20,8 @@ import {
   ArrowForwardIos,
   ArrowRight,
 } from "@material-ui/icons";
+import StockCard from "../StockCard";
+import SmallStockCard from "./SmallStockCard";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -51,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface News {
+interface stockInfo {
   totalCount: number;
   data: [
     {
@@ -80,64 +82,27 @@ function formatDate() {
   return [year, month, day].join("-");
 }
 
-const NewsArea = () => {
+const stockInfoArea = () => {
   const classes = useStyles();
-
-  const NewsCard = (each) => {
-    return (
-      <Card
-        key={each.id}
-        className={classes.root}
-        style={{ cursor: "pointer" }}
-        onClick={() => {}}
-        {...defaultProps}
-      >
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h5">
-            {each.symbol}
-          </Typography>
-          <Typography variant="subtitle1" component="h6">
-            {each.typeDesc}
-          </Typography>
-
-          <Typography variant="body2" color="textSecondary">
-            {each.content}
-          </Typography>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const [news, setNews] = useState<News>({
-    data: [{ id: "0", symbol: "", typeDesc: "", content: "" }],
-    totalCount: 0,
-  });
 
   const defaultProps = {
     style: { cursor: "pointer", margin: "20" },
     border: 1,
   };
 
+  const [stockStat, setStockStat] = useState({ o: [], c: [], t: [], v: [] });
+
   useEffect(() => {
     axios
-      .get(
-        Constants.GET_EVENTS_URL +
-          "?fromEffDate=" +
-          formatDate() +
-          "&toEffDate=" +
-          formatDate(),
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "X-Requested-With": "XMLHttpRequest",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          },
-        }
-      )
+      .get(Constants.HISTORYCAL_DATA_URL + "ITA", {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "X-Requested-With": "XMLHttpRequest",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
       .then((res) => {
-        console.log(res.data);
-
-        setNews(res.data);
+        // setStockStat(res.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -145,9 +110,9 @@ const NewsArea = () => {
     <div>
       <ScrollMenu
         data={
-          news.totalCount !== 0
-            ? news.data.map((each) => {
-                return NewsCard(each);
+          0 === 0
+            ? ["ITA", "CTG", "TCB", "KBC", "ROS"].map((each) => {
+                return <SmallStockCard each={each} />;
               })
             : [1, 2, 3, 4, 5].map((each, index) => {
                 return (
@@ -169,4 +134,4 @@ const NewsArea = () => {
     </div>
   );
 };
-export default NewsArea;
+export default stockInfoArea;
