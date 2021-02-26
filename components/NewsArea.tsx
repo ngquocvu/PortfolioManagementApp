@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "18vh",
       width: "16vw",
       [theme.breakpoints.down("md")]: {
-        width: "40vh",
+        width: "30vh",
         height: "20vh",
       },
     },
@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(1),
       width: "16vw",
       height: "18vh",
+      [theme.breakpoints.down("md")]: {
+        width: "30vh",
+        height: "20vh",
+      },
     },
   })
 );

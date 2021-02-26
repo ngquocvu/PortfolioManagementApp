@@ -2,9 +2,9 @@
 
 ### Công cụ sử dụng: React Hooks + Nextjs + Material UI
 
-### haniextidus.herokuapp.com
+### haniextidus.herokuapp.com | http://self-stock-management-ssm.vercel.app/
 
-##### (PIN CODE: \_ \_ \_ \_ - Nhăn riêng tôi nhé!)
+![Screenshot2](https://i0.wp.com/s1.uphinh.org/2021/02/26/Screenshot-130.png)
 
 Các plugins khác: React Recharts - Axios -...
 

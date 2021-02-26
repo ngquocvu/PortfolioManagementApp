@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardContent,
   createStyles,
@@ -29,12 +30,17 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "23vh",
       width: "16vw",
       [theme.breakpoints.down("md")]: {
-        width: "40vh",
+        width: "25vh",
         height: "25vh",
       },
     },
   })
 );
+
+const calPercentage = (prevData, currData) => {
+  let data = currData / (prevData / 100) - 100;
+  return Number.parseFloat(data.toFixed(2));
+};
 
 const StockCard = ({ each }: any) => {
   const classes = useStyles();
@@ -59,27 +65,55 @@ const StockCard = ({ each }: any) => {
       .catch((error) => console.log(error));
   }, []);
   return (
-    <Card
-      className={classes.root}
-      style={{ cursor: "pointer" }}
-      onClick={() => {}}
-    >
+    <>
       {stockStat.c.length == 0 ? (
-        <Skeleton animation="wave" height="100%" />
+        <div className={classes.root}>
+          <Skeleton variant="text" height="15%" width="100%" animation="wave" />
+
+          <Skeleton variant="rect" animation="wave" height="70%" />
+        </div>
       ) : (
-        <div>
+        <Card
+          className={classes.root}
+          style={{ cursor: "pointer" }}
+          onClick={() => {}}
+        >
           <CardContent>
             <Typography
-              variant="h4"
-              style={{ fontWeight: "bold" }}
-              component="h4"
+              variant="h5"
+              style={{ fontWeight: "bold", display: "flex" }}
+              component="h5"
             >
-              {each}
+              {each}{" "}
+              <Typography
+                style={{
+                  marginLeft: "10px",
+                  fontWeight: "bold",
+                  color:
+                    calPercentage(
+                      stockStat.c.slice(-2)[0],
+                      stockStat.c.slice(-1)
+                    ) < 0
+                      ? Constants.SELL_COLOR
+                      : Constants.BUY_COLOR,
+                }}
+                variant="body1"
+              >
+                {calPercentage(
+                  stockStat.c.slice(-2)[0],
+                  stockStat.c.slice(-1)
+                ) + "%"}
+              </Typography>
             </Typography>
-            <Typography gutterBottom variant="h5" style={{}} component="h5">
-              {stockStat.o.slice(-1).pop()}
+            <Typography
+              variant="h5"
+              style={{ fontWeight: "lighter" }}
+              component="h5"
+            >
+              {stockStat.c.slice(-1).pop()}
             </Typography>
-            <div style={{ width: "100%", height: "8vh" }}>
+
+            <div style={{ width: "100%", height: "5vw" }}>
               <ResponsiveContainer>
                 <LineChart
                   data={stockStat.c.map((cur, index) => ({
@@ -103,9 +137,9 @@ const StockCard = ({ each }: any) => {
             </div>
             <Typography variant="body2" color="textSecondary"></Typography>
           </CardContent>
-        </div>
+        </Card>
       )}
-    </Card>
+    </>
   );
 };
 export default StockCard;

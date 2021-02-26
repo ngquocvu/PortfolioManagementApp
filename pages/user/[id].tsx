@@ -14,6 +14,8 @@ import { useRouter } from "next/dist/client/router";
 import auth from "../auth";
 import NewsArea from "../../components/NewsArea";
 import IndexChart from "../../components/IndexChart";
+import ChipsArea from "../../components/Home/ChipsArea";
+import HomeChartInfo from "../../components/Home/HomeChartInfo";
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -39,6 +41,8 @@ const Account = ({ transactions, profile }) => {
   const [selfStock, setSelfStock] = useRecoilState(selfStockState);
   const ArrowRight = Arrow({ text: " > ", className: "arrow-next" });
   const [selectedCard, setSelectedCard] = useState({ selected: "key" });
+  const [code, setCode] = useState("VNINDEX");
+  const [timeRange, setTimeRange] = useState("DAY");
   const item = Menu(selfStock, selectedCard);
 
   const onSelect = (key) => {
@@ -76,11 +80,23 @@ const Account = ({ transactions, profile }) => {
             style={{ fontWeight: "lighter", marginLeft: "1rem" }}
             variant="h6"
           >
-            Biểu đồ VN-INDEX
+            Biểu đồ {code}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={12}>
-          {/* <IndexChart /> */}
+        <Grid item xs={12}>
+          <ChipsArea
+            code={code}
+            timeRange={timeRange}
+            setTimeRange={setTimeRange}
+            setCode={setCode}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={9}>
+          <IndexChart code={code} timeRange={timeRange} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <HomeChartInfo />
         </Grid>
 
         <Grid item xs={12}>

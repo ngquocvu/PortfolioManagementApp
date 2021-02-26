@@ -18,6 +18,10 @@ import React from "react";
 function MyApp({ Component, pageProps }) {
   const [value, setValue] = useState(0);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [darkMode, setDarkMode] = useState(prefersDarkMode);
+
+  console.log(darkMode);
+  console.log(prefersDarkMode);
   const theme = React.useMemo(
     () =>
       createMuiTheme({
@@ -36,7 +40,7 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Container maxWidth="lg" style={{ paddingTop: "2rem" }}>
+        <Container maxWidth="lg" style={{ paddingTop: "5rem" }}>
           <Component {...pageProps} />
         </Container>
       </ThemeProvider>
