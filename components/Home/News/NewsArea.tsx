@@ -1,6 +1,9 @@
 import {
+  Button,
+  CardActions,
   CardContent,
   createStyles,
+  Divider,
   Grid,
   Theme,
   Typography,
@@ -10,7 +13,7 @@ import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
 import React, { useEffect } from "react";
-import * as Constants from "../utils/constants";
+import * as Constants from "../../../utils/constants";
 import { useState } from "react";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -24,12 +27,17 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: "0 1rem",
-      height: "18vh",
-      width: "16vw",
+      padding: "1rem",
+      minHeight: "45vh",
+      width: "26vw",
       [theme.breakpoints.down("md")]: {
-        width: "30vh",
-        height: "20vh",
+        width: "50vh",
+        height: "60vh",
       },
+    },
+    divider: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
     },
     bullet: {
       display: "inline-block",
@@ -41,16 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     pos: {
       marginBottom: 12,
-    },
-    skeleton: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: "16vw",
-      height: "18vh",
-      [theme.breakpoints.down("md")]: {
-        width: "30vh",
-        height: "20vh",
-      },
     },
   })
 );
@@ -72,22 +70,10 @@ const openInNewTab = (url) => {
   if (newWindow) newWindow.opener = null;
 };
 
-function formatDate() {
-  var d = new Date(),
-    month = "" + (d.getMonth() + 1),
-    day = "" + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = "0" + month;
-  if (day.length < 2) day = "0" + day;
-
-  return [year, month, day].join("-");
-}
-
 const NewsArea = () => {
   const classes = useStyles();
 
-  const NewsCard = (each) => {
+  const NewsCard = (each, index) => {
     return (
       <Card
         key={each.id}
@@ -97,15 +83,25 @@ const NewsArea = () => {
         {...defaultProps}
       >
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h5">
-            {each.symbol}
+          <Typography
+            gutterBottom
+            variant="h6"
+            style={{ whiteSpace: "pre-line" }}
+          >
+            {index + ". " + each.newsTitle}
           </Typography>
-          <Typography variant="subtitle1" component="h6">
-            {each.typeDesc}
+          <Divider className={classes.divider} />
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            align="justify"
+            style={{ whiteSpace: "pre-line" }}
+          >
+            {each.newsAbstract}
           </Typography>
 
-          <Typography variant="body2" color="textSecondary">
-            {each.content}
+          <Typography variant="body2" align="right" color="textSecondary">
+            {"Nguồn: " + each.newsSource}
           </Typography>
         </CardContent>
       </Card>
@@ -114,7 +110,7 @@ const NewsArea = () => {
 
   const [news, setNews] = useState<News>({
     data: [{ id: "0", symbol: "", typeDesc: "", content: "" }],
-    totalCount: 0,
+    totalCount: -1,
   });
 
   const defaultProps = {
@@ -124,20 +120,13 @@ const NewsArea = () => {
 
   useEffect(() => {
     axios
-      .get(
-        Constants.GET_EVENTS_URL +
-          "?fromEffDate=" +
-          formatDate() +
-          "&toEffDate=" +
-          formatDate(),
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "X-Requested-With": "XMLHttpRequest",
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          },
-        }
-      )
+      .get(Constants.TOP_NEWS, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "X-Requested-With": "XMLHttpRequest",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        },
+      })
       .then((res) => {
         console.log(res.data);
 
@@ -145,28 +134,38 @@ const NewsArea = () => {
       })
       .catch((error) => console.log(error));
   }, []);
-  return (
+  return news.totalCount === 0 ? (
+    <Typography
+      gutterBottom
+      variant="body1"
+      color="textSecondary"
+      align="center"
+    >
+      Không có sự kiện mới
+    </Typography>
+  ) : (
     <div>
       <ScrollMenu
         data={
-          news.totalCount !== 0
-            ? news.data.map((each) => {
-                return NewsCard(each);
-              })
-            : [1, 2, 3, 4, 5].map((each, index) => {
+          news.totalCount === -1
+            ? [1, 2, 3, 4, 5].map((each, index) => {
                 return (
                   <Skeleton
                     key={index}
                     variant="rect"
-                    className={classes.skeleton}
+                    className={classes.root}
                     animation="wave"
                   />
                 );
               })
+            : news.data.map((each, index) => {
+                return NewsCard(each, index + 1);
+              })
         }
         wheel={false}
-        transition={0.3}
-        scrollBy={4}
+        transition={0.6}
+        scrollBy={2}
+        alignCenter={false}
         inertiaScrolling={true}
         inertiaScrollingSlowdown={2}
       />

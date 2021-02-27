@@ -9,12 +9,13 @@ import React from "react";
 import { useState } from "react";
 import ScriptTag from "react-script-tag";
 import * as Constants from "../utils/constants";
-import IndexChart from "../components/IndexChart";
-import NewsArea from "../components/NewsArea";
-import TopStock from "../components/Home/TopStock";
+import IndexChart from "../components/Home/IndexChart";
+import EventsArea from "../components/Home/Events/EventsArea";
+import TopStock from "../components/Home/TopStock/TopStock";
 import { TrendingUp } from "@material-ui/icons";
-import ChipsArea from "../components/Home/ChipsArea";
-import HomeChartInfo from "../components/Home/HomeChartInfo";
+import ChipsArea from "../components/Home/MainChart/ChipsArea";
+import NewsArea from "../components/Home/News/NewsArea";
+import HomeChartInfo from "../components/Home/MainChart/HomeChartInfo";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) =>
 export default function Home({ accounts }) {
   const classes = useStyles();
   const [code, setCode] = useState("VNINDEX");
-  const [timeRange, setTimeRange] = useState("DAY");
+  const [timeRange, setTimeRange] = useState("YEAR");
 
   return (
     <>
@@ -91,7 +92,7 @@ export default function Home({ accounts }) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <NewsArea />
+          <EventsArea />
         </Grid>
         <Grid item xs={12}>
           <Typography

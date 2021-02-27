@@ -40,7 +40,10 @@ function MyApp({ Component, pageProps }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <Container maxWidth="lg" style={{ paddingTop: "5rem" }}>
+        <Container
+          maxWidth="lg"
+          style={{ paddingTop: "5rem", paddingBottom: "5rem" }}
+        >
           <Component {...pageProps} />
         </Container>
       </ThemeProvider>

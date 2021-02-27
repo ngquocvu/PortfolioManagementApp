@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as Constants from "../utils/constants";
+import * as Constants from "../../utils/constants";
 import React, { useEffect, useState } from "react";
 import {
   LineChart,

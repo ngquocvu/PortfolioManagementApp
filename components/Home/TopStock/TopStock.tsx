@@ -1,26 +1,14 @@
-import {
-  CardContent,
-  createStyles,
-  Grid,
-  Theme,
-  Typography,
-} from "@material-ui/core";
+import { createStyles, Grid, Theme } from "@material-ui/core";
 import Box from "@material-ui/core/Box/Box";
 import Card from "@material-ui/core/Card";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import axios from "axios";
 import React, { useEffect } from "react";
-import * as Constants from "../../utils/constants";
+import * as Constants from "../../../utils/constants";
 import { useState } from "react";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import Skeleton from "@material-ui/lab/Skeleton";
-import {
-  ArrowBack,
-  ArrowBackIos,
-  ArrowForwardIos,
-  ArrowRight,
-} from "@material-ui/icons";
-import StockCard from "../StockCard";
+
 import SmallStockCard from "./SmallStockCard";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -114,10 +102,12 @@ const stockInfoArea = () => {
     <div>
       <ScrollMenu
         data={
-          0 === 0
-            ? ["ITA", "CTG", "TCB", "KBC", "ROS"].map((each) => {
-                return <SmallStockCard each={each} />;
-              })
+          0 == 0
+            ? ["ITA", "CTG", "TCB", "KBC", "ROS", "HPG", "ACB", "ADG"].map(
+                (each) => {
+                  return <SmallStockCard each={each} />;
+                }
+              )
             : [1, 2, 3, 4, 5].map((each, index) => {
                 return (
                   <Skeleton

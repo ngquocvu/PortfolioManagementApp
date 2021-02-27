@@ -1,6 +1,7 @@
 import {
   Box,
   Card,
+  CardActions,
   CardContent,
   createStyles,
   Theme,
@@ -8,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import * as Constants from "../../utils/constants";
+import * as Constants from "../../../utils/constants";
 import axios from "axios";
 import React, { useEffect } from "react";
 import {
@@ -27,11 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       margin: "0 1rem",
-      height: "23vh",
+      height: "31vh",
       width: "16vw",
       [theme.breakpoints.down("md")]: {
-        width: "25vh",
-        height: "25vh",
+        width: "32vh",
+        height: "32vh",
       },
     },
   })
@@ -42,8 +43,30 @@ const calPercentage = (prevData, currData) => {
   return Number.parseFloat(data.toFixed(2));
 };
 
+const exchangeTime = (timeRange) => {
+  let date = new Date();
+
+  switch (timeRange) {
+    case "DAY":
+      date.setDate(date.getDate() - 2);
+      break;
+    case "MONTH":
+      date.setDate(date.getDate() - 30);
+      break;
+    case "WEEK":
+      date.setDate(date.getDate() - 7);
+      break;
+    case "YEAR":
+      date.setDate(date.getDate() - 365);
+      break;
+  }
+  return date;
+};
+
 const StockCard = ({ each }: any) => {
   const classes = useStyles();
+  const timeParams =
+    "&from=" + Math.round(exchangeTime("MONTH").getTime() / 1000);
   const [stockStat, setStockStat] = useState({
     o: [1, 2, 3],
     c: [],
@@ -52,7 +75,7 @@ const StockCard = ({ each }: any) => {
   });
   useEffect(() => {
     axios
-      .get(Constants.HISTORYCAL_DATA_URL + each, {
+      .get(Constants.HISTORYCAL_DATA_URL + each + timeParams, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           "X-Requested-With": "XMLHttpRequest",
@@ -68,8 +91,7 @@ const StockCard = ({ each }: any) => {
     <>
       {stockStat.c.length == 0 ? (
         <div className={classes.root}>
-          <Skeleton variant="text" height="15%" width="100%" animation="wave" />
-
+          <Skeleton variant="rect" animation="wave" height="30%" />
           <Skeleton variant="rect" animation="wave" height="70%" />
         </div>
       ) : (
@@ -84,7 +106,7 @@ const StockCard = ({ each }: any) => {
               style={{ fontWeight: "bold", display: "flex" }}
               component="h5"
             >
-              {each}{" "}
+              {each}
               <Typography
                 style={{
                   marginLeft: "10px",
@@ -102,41 +124,53 @@ const StockCard = ({ each }: any) => {
                 {calPercentage(
                   stockStat.c.slice(-2)[0],
                   stockStat.c.slice(-1)
-                ) + "%"}
+                ) + "% (24h)"}
               </Typography>
             </Typography>
-            <Typography
-              variant="h5"
-              style={{ fontWeight: "lighter" }}
-              component="h5"
-            >
+            <Typography variant="h4" component="h5">
               {stockStat.c.slice(-1).pop()}
             </Typography>
-
-            <div style={{ width: "100%", height: "5vw" }}>
-              <ResponsiveContainer>
-                <LineChart
-                  data={stockStat.c.map((cur, index) => ({
-                    close: stockStat.c[index],
-                    time: new Date(
-                      stockStat.t[index] * 1000
-                    ).toLocaleDateString(),
-                  }))}
-                >
-                  <XAxis dataKey="date" hide={true} />
-                  <Line
-                    type="monotone"
-                    dataKey="close"
-                    dot={false}
-                    autoReverse={true}
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-            <Typography variant="body2" color="textSecondary"></Typography>
+            <Typography variant="body2" color="textSecondary">
+              {new Date(
+                stockStat.t.slice(-1).pop() * 1000
+              ).toLocaleDateString()}
+            </Typography>
           </CardContent>
+          <CardActions>
+            <ResponsiveContainer width="99%" aspect={3}>
+              <LineChart
+                data={stockStat.c.map((cur, index) => ({
+                  close: stockStat.c[index],
+                  time: new Date(
+                    stockStat.t[index] * 1000
+                  ).toLocaleDateString(),
+                }))}
+              >
+                <XAxis dataKey="date" hide={true} />
+                <YAxis
+                  type="number"
+                  domain={["auto", "auto"]}
+                  dataKey="close"
+                  hide={true}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="close"
+                  dot={false}
+                  autoReverse={true}
+                  stroke={
+                    calPercentage(
+                      stockStat.c.slice(-2)[0],
+                      stockStat.c.slice(-1)
+                    ) < 0
+                      ? Constants.SELL_COLOR
+                      : Constants.BUY_COLOR
+                  }
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardActions>
         </Card>
       )}
     </>

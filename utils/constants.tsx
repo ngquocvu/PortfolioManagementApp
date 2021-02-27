@@ -3,7 +3,7 @@ export const API_URL = PROXY + "https://finfo-api.vndirect.com.vn/";
 // "https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&from=1609465803&to=1614095882&symbol=";
 export const HISTORYCAL_DATA_URL =
   PROXY +
-  "https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&from=1598925003&symbol=";
+  "https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&symbol=";
 
 export const HISTORYCAL_DATA_URL_WITHOUT_PARAM =
   PROXY + "https://dchart-api.vndirect.com.vn/dchart/history?resolution=D&";
@@ -22,6 +22,10 @@ export const GET_EVENTS_URL =
 export const GET_TRADE_MARKET_INDEX =
   PROXY +
   "https://finfo-api.vndirect.com.vn/v4/change_prices?q=code:VNINDEX,HNX,UPCOM,VN30,VN30F1M~period:1D";
+
+export const TOP_NEWS =
+  PROXY +
+  "https://finfo-api.vndirect.com.vn/v4/news?q=newsType:company_news~locale:VN&sort=newsDate:desc~newsTime:desc&size=10";
 
 export const BUY_COLOR = "#1eb800";
 export const SELL_COLOR = "#f22e1f";

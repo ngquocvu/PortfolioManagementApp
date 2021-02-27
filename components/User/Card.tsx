@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
-import { numberWithCommas } from "../utils/stock";
+import { numberWithCommas } from "../../utils/stock";
 
 import {
   Box,

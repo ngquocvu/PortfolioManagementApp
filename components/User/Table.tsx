@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TableIcons from "../components/TableIcons";
+import TableIcons from "../../components/TableIcons";
 import MaterialTable from "material-table";
 import { Typography } from "@material-ui/core";
-import { numberWithCommas } from "../utils/stock";
+import { numberWithCommas } from "../../utils/stock";
 
 const useStyles = makeStyles({});
 

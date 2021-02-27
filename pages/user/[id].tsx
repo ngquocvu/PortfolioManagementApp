@@ -1,21 +1,18 @@
 import { Avatar, Grid, Typography } from "@material-ui/core";
-import { useRecoilState } from "recoil";
-import { loginState, selfStockState, tokenState } from "../../states";
-import React, { useState } from "react";
-import DataTable from "../../components/Table";
-import { getAvailableStock } from "../../utils/stock";
 import Head from "next/head";
-import Card from "../../components/Card";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 import ScrollMenu from "react-horizontal-scrolling-menu";
-import StockCard from "../../components/StockCard";
-import { useEffect } from "react";
-import router from "next/dist/next-server/lib/router/router";
-import { useRouter } from "next/dist/client/router";
+import { useRecoilState } from "recoil";
+import IndexChart from "../../components/Home/IndexChart";
+import ChipsArea from "../../components/Home/MainChart/ChipsArea";
+import HomeChartInfo from "../../components/Home/MainChart/HomeChartInfo";
+import StockCard from "../../components/Home/TopStock/SmallStockCard";
+import Table from "../../components/User/Table";
+import { getAvailableStock } from "../../utils/stock";
+import { loginState, selfStockState, tokenState } from "../../states";
 import auth from "../auth";
-import NewsArea from "../../components/NewsArea";
-import IndexChart from "../../components/IndexChart";
-import ChipsArea from "../../components/Home/ChipsArea";
-import HomeChartInfo from "../../components/Home/HomeChartInfo";
+import Card from "../../components/User/Card";
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -122,7 +119,7 @@ const Account = ({ transactions, profile }) => {
         </Grid>
 
         <Grid item xs={12} md={9}>
-          <DataTable transactions={transactions} />
+          <Table transactions={transactions} />
         </Grid>
         <Grid item xs={12} md={3}>
           <Card

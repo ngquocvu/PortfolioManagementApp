@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,6 +12,7 @@ import {
   Search,
 } from "@material-ui/icons";
 import { fade, InputBase, Typography } from "@material-ui/core";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,7 +70,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header = () => {
   const classes = useStyles();
+  const [currTime, setCurrTime] = useState(new Date().toLocaleTimeString());
   // const [token, setToken] = useRecoilState(tokenState);
+  useEffect(() => {
+    setInterval(() => setCurrTime(new Date().toLocaleTimeString()), 1000);
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar position="fixed" color="inherit">
@@ -83,7 +88,9 @@ const Header = () => {
               <Home />
             </IconButton>
           </Link>
-          <Typography variant="h6" className={classes.title}></Typography>
+          <Typography variant="h6" className={classes.title}>
+            {currTime}
+          </Typography>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
