@@ -14,8 +14,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { TransitionProps } from "@material-ui/core/transitions";
 import MaterialTable from "material-table";
-import TableIcons from "./TableIcons";
-import { numberWithCommas } from "../utils/stock";
+import TableIcons from "../TableIcons";
+import { numberWithCommas } from "../../utils/stock";
 import { Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
