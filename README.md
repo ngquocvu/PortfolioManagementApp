@@ -8,8 +8,8 @@
 
 Các plugins khác: React Recharts - Axios -...
 
-- Back-end Repo: đã tạm ẩn bởi Quốc Vũ
 - Công cụ sử dụng cho BE: MongoDB, NodeJS
+- API được sử dụng từ nguồn https://www.vndirect.com.vn/
 
 ## Tính năng
 

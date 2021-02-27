@@ -22,7 +22,7 @@ import {
   Line,
   LineChart,
 } from "recharts";
-import { numberWithCommas } from "../utils/stock";
+import { numberWithCommas } from "../../utils/stock";
 import StockChart from "./StockChart";
 const useStyles = makeStyles({
   root: {
